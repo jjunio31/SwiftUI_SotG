@@ -1,0 +1,27 @@
+import SwiftUI
+import PDFKit
+
+struct PDFViewer: UIViewRepresentable {
+    func makeUIView(context: Context) -> PDFView {
+        let pdfView = PDFView()
+        return pdfView
+    }
+    func updateUIView(_ uiView: PDFView, context: Context) {}
+}
+
+struct ContentView: View {
+    @State private var showPDF = false
+    var body: some View {
+        Button(action: {
+            // code to download PDF goes here
+            let url = URL(string: "https://example.com/example.pdf")!
+            let pdfDocument = PDFDocument(url: url)
+            PDFViewer.pdfDocument = pdfDocument
+            self.showPDF = true
+        }) {
+            Text("Download and View PDF")
+        }.sheet(isPresented: $showPDF) {
+            PDFViewer()
+        }
+    }
+}
