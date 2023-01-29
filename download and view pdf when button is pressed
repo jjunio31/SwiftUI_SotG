@@ -25,3 +25,41 @@ struct ContentView: View {
         }
     }
 }
+
+
+************
+another example
+
+import SwiftUI
+import WebKit
+
+struct PDFViewer: UIViewRepresentable {
+    let request: URLRequest
+    
+    func makeUIView(context: Context) -> WKWebView {
+        return WKWebView()
+    }
+    
+    func updateUIView(_ uiView: WKWebView, context: Context) {
+        uiView.load(request)
+    }
+}
+
+struct ContentView: View {
+    @State private var showPDF = false
+    let pdfURL = URL(string: "https://www.example.com/sample.pdf")!
+    
+    var body: some View {
+        VStack {
+            Button(action: {
+                self.showPDF.toggle()
+            }) {
+                Text("Download and View PDF")
+            }
+            
+            if showPDF {
+                PDFViewer(request: URLRequest(url: pdfURL))
+            }
+        }
+    }
+}
